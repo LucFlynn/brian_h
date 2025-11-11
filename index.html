@@ -14,8 +14,19 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MG363MQW');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body class="bg-gray-50">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG363MQW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -588,21 +599,32 @@
         // Form submission handler (customize based on your backend)
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Get form data
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-            
+
+            // Push to GTM dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'form_submission',
+                'form_name': 'contact_form',
+                'form_type': 'tax_audit_request',
+                'business_name': data.name,
+                'user_email': data.email,
+                'user_phone': data.phone
+            });
+
             // Here you would typically send to your backend/email service
             // For now, we'll log it and show a success message
             console.log('Form submitted:', data);
-            
+
             // Show success message (you can customize this)
             alert('Thank you! Your consultation request has been received. Brian will contact you within 24 hours.');
-            
+
             // Reset form
             e.target.reset();
-            
+
             // TODO: Integrate with your email service (SendGrid, Mailgun, etc.)
             // or form handling service (Formspree, Netlify Forms, etc.)
         });

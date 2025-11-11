@@ -14,8 +14,19 @@
             font-family: 'Inter', sans-serif;
         }
     </style>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MG363MQW');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body class="bg-gray-50">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG363MQW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1071,16 +1082,30 @@
         // Form submission
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-            
+
+            // Push to GTM dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'form_submission',
+                'form_name': 'rei_contact_form',
+                'form_type': 'rei_tax_analysis_request',
+                'user_name': data.name,
+                'user_email': data.email,
+                'user_phone': data.phone,
+                'portfolio_size': data['portfolio-size'],
+                'biggest_concern': data['biggest-concern'],
+                'message': data.message
+            });
+
             console.log('REI Form submitted:', data);
-            
+
             alert('Thank you! I\'ll personally review your portfolio information and contact you within 24 hours with initial insights.');
-            
+
             e.target.reset();
-            
+
             // TODO: Integrate with email service
         });
     </script>
