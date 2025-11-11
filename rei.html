@@ -1058,10 +1058,10 @@
             const numProperties = parseInt(document.getElementById('num-properties').value) || 0;
             const propertyValue = parseInt(document.getElementById('property-value').value) || 0;
             const taxSituation = document.getElementById('tax-situation').value;
-            
+
             // Conservative calculation
             let savingsPerProperty = 0;
-            
+
             if (taxSituation === 'basic') {
                 savingsPerProperty = propertyValue * 0.12; // 12% of property value
             } else if (taxSituation === 'some') {
@@ -1069,12 +1069,23 @@
             } else {
                 savingsPerProperty = propertyValue * 0.03; // 3% fine-tuning
             }
-            
+
             const totalSavings = Math.round(savingsPerProperty * numProperties);
-            
+
+            // Push to GTM dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'roi_calculator_used',
+                'calculator_type': 'rei_tax_savings',
+                'num_properties': numProperties,
+                'property_value': propertyValue,
+                'tax_situation': taxSituation,
+                'estimated_savings': totalSavings
+            });
+
             document.getElementById('savings-amount').textContent = '$' + totalSavings.toLocaleString();
             document.getElementById('savings-result').classList.remove('hidden');
-            
+
             // Scroll to result
             document.getElementById('savings-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
