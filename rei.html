@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Real estate tax specialist helping investors maximize deductions through cost segregation, bonus depreciation, and strategic tax planning. Expert CPA analysis.">
     <title>Real Estate Tax Specialist | Maximize Your Property Tax Deductions | Brian Haimes CPA</title>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MG363MQW');</script>
+    <!-- End Google Tag Manager -->
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +25,11 @@
     </style>
 </head>
 <body class="bg-gray-50">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MG363MQW"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1071,17 +1085,51 @@
         // Form submission
         document.getElementById('contact-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
-            
-            console.log('REI Form submitted:', data);
-            
-            alert('Thank you! I\'ll personally review your portfolio information and contact you within 24 hours with initial insights.');
-            
-            e.target.reset();
-            
-            // TODO: Integrate with email service
+
+            const form = e.target;
+            const formData = new FormData(form);
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            // Submit to Formspree
+            fetch('https://formspree.io/f/xzzorley', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Push to dataLayer for GTM tracking
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'form_submit',
+                        'formType': 'rei_tax_analysis',
+                        'formName': 'Schedule Your Free REI Tax Analysis'
+                    });
+
+                    alert('Thank you! I\'ll personally review your portfolio information and contact you within 24 hours with initial insights.');
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            alert('There was a problem submitting your form. Please try again or contact us directly.');
+                        } else {
+                            alert('There was a problem submitting your form. Please try again or contact us directly.');
+                        }
+                    });
+                }
+            }).catch(error => {
+                alert('There was a problem submitting your form. Please try again or contact us directly.');
+            }).finally(() => {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            });
         });
     </script>
 </body>
