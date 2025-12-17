@@ -65,7 +65,7 @@ Once deployed on Vercel:
 ### Recommended Ad Copy Angles
 1. **Pain Point**: "Tired of TurboTax 'experts' who can't help?"
 2. **USP**: "AI efficiency + Real CPA accuracy"
-3. **Authority**: "Licensed CPA • MBA • 15+ Years Experience"
+3. **Authority**: "Licensed CPA • MBA • 10 Years Accounting Experience"
 4. **Local**: "Raleigh, NC Tax Professional"
 
 ### Keywords to Target
